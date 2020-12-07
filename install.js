@@ -1,4 +1,6 @@
 const { exec } = require('child_process')
 
 exec('npm ci')
-console.log('installed')
+    .once('exit', code => {
+        process.exit(code)
+    })
