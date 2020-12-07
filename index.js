@@ -14,7 +14,7 @@ if (versions.includes(version)) {
     core.setFailed('Invalid version. Use either major, minor, or patch.')
 }
 
-const update = async () => {
+async function update() {
     core.info('Read package.json')
     let packageJson
     try {
