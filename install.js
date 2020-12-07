@@ -1,6 +1,8 @@
 const { exec } = require('child_process')
 
-exec('npm ci')
+const install = exec('npm ci')
     .once('exit', code => {
         process.exit(code)
     })
+
+install.stdout.pipe(process.stdout)
