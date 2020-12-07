@@ -58,5 +58,24 @@ async function update() {
         core.setFailed('Error creating blob')
         return
     }
+
+    core.info('Create a new tree')
+    try {
+        const tree = await octokit.git.createTree({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            tree: [
+                {
+                    path: 'package.json',
+                    sha: sha
+                }
+            ]
+        })
+        sha = tree.data.sha
+    } catch (e) {
+        core.error(e)
+        core.setFailed('Error creating tree')
+        return
+    }
     core.info(sha)
 }
