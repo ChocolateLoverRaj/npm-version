@@ -67,7 +67,8 @@ async function update() {
             tree: [
                 {
                     path: 'package.json',
-                    sha: sha
+                    sha: sha,
+                    mode: '100644'
                 }
             ]
         })
