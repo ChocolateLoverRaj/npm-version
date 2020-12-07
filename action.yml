@@ -2,4 +2,5 @@ name: 'Npm Version'
 description: 'Workflow that updates npm version.'
 runs:
   using: 'node12'
+  pre: 'install.js'
   main: 'index.js'
