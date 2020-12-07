@@ -4,6 +4,6 @@ runs:
   using: 'composite'
   steps:
     - run: npm ci
-      using: 'node14'
+      shell: bash
     - run: node index.js
-      using: 'node14'
+      shell: bash
