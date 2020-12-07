@@ -1,5 +1,9 @@
 name: 'Npm Version'
 description: 'Workflow that updates npm version.'
+inputs:
+  version:
+    description: 'Whether the version is major, minor, or patch.'
+    required: true
 runs:
   using: 'node12'
   pre: 'install.js'
