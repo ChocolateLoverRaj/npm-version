@@ -4,6 +4,9 @@ inputs:
   version:
     description: 'Whether the version is major, minor, or patch.'
     required: true
+  token:
+    description: 'GitHub token for pushing changes.'
+    required: true
 runs:
   using: 'node12'
   pre: 'install.js'
