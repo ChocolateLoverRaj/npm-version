@@ -1,1 +1,3 @@
-console.log(process.versions.node)
+const github = require('@actions/github')
+
+console.log(github.context)
