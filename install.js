@@ -1,9 +1,7 @@
 const { exec } = require('child_process')
 
-console.log(__dirname)
-const install = exec('npm ci')
+const install = exec('npm ci', { cwd: __dirname })
     .once('exit', code => {
-        console.log('Mission failed')
         process.exit(code)
     })
 
