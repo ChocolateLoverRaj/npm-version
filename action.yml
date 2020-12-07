@@ -1,5 +1,5 @@
 name: 'Npm Version'
 description: 'Workflow that updates npm version.'
 runs:
-  using: 'node14'
+  using: 'node12'
   main: 'index.js'
