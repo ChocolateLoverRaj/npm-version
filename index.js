@@ -1,6 +1,10 @@
 const core = require('@actions/core')
 const { exec } = require('child_process')
 
-const version = core.getInput('version')
+const versions = ['major', 'minor', 'patch']
 
-console.log(version)
+const version = core.getInput('version')
+if (!versions.includes(version)) {
+    core.setFailed('Invalid version. Use either major, minor, or patch.')
+}
+console.log('this ran')
