@@ -1,3 +1,6 @@
-const github = require('@actions/github')
+const core = require('@actions/core')
+const { exec } = require('child_process')
 
-console.log(github.context.payload.commits)
+const version = core.getInput('version')
+
+console.log(version)
