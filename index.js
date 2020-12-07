@@ -79,4 +79,5 @@ async function update() {
         return
     }
     core.info(sha)
+    console.log(github.context.payload)
 }
