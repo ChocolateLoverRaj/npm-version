@@ -70,7 +70,8 @@ async function update() {
                     sha: sha,
                     mode: '100644'
                 }
-            ]
+            ],
+            base_tree: github.context.payload.head_commit.tree_id
         })
         sha = tree.data.sha
     } catch (e) {
