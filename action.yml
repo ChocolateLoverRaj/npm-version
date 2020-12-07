@@ -2,8 +2,5 @@ name: 'Npm Version'
 description: 'Workflow that updates npm version.'
 runs:
   using: 'composite'
-  steps:
-    - run: npm ci
-      shell: bash
-    - run: node index.js
-      shell: bash
+  pre: 'install.js'
+  main: 'index.js'
