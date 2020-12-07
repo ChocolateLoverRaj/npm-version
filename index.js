@@ -31,5 +31,12 @@ async function update() {
         core.error(e)
         core.setFailed('Error reading package.json')
     }
-    core.info(packageJson)
+    core.info(`Old version: ${packageJson.version}`)
+    const semver = packageJson.version.split('.')
+    const versionPosition = versions.indexOf(version)
+    semver[versionPosition] = parseInt(semver[versionPosition]) + 1
+    for (let i = versionPosition + 1; i < versions.length; i++) {
+        semver[i] = '0'
+    }
+    core.info(`New version: ${semver.join('.')}`)
 }
