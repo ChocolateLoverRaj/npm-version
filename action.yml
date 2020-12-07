@@ -1,0 +1,5 @@
+name: 'Npm Version'
+description: 'Workflow that updates npm version.'
+runs:
+  using: 'node14'
+  main: 'index.js'
