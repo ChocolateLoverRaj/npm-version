@@ -1,22 +1,35 @@
 const core = require('@actions/core')
-const { exec } = require('child_process')
-const fs = require('fs')
+const github = require('@actions/github')
+const { readFile } = require('fs').promises
 
 const versions = ['major', 'minor', 'patch']
 
 const version = core.getInput('version')
 if (versions.includes(version)) {
-    const command = `npm version ${version}`
-    core.info(`Running command: ${command}`)
-    const update = exec(command).once('exit', code => {
-        if (!code) {
-            core.info(JSON.parse(fs.readFileSync('package.json')))
-        } else {
-            core.setFailed(`Command exited with code: ${code}`)
-        }
+    core.info('Updating package version')
+    update().then(version => {
+        core.info(`Updated package version to ${version}`)
     })
-    update.stderr.pipe(process.stderr)
-    console.log(process.cwd(), fs.readdirSync(process.cwd()))
 } else {
     core.setFailed('Invalid version. Use either major, minor, or patch.')
+}
+
+const update = async () => {
+    core.info('Read package.json')
+    let packageJson
+    try {
+        packageJson = await readFile('package.json')
+    } catch (e) {
+        core.error(e)
+        core.setFailed('Error reading package.json')
+        return
+    }
+    core.info('Parse package.json')
+    try {
+        packageJson = JSON.parse(packageJson)
+    } catch (e) {
+        core.error(e)
+        core.setFailed('Error reading package.json')
+    }
+    core.info(packageJson)
 }
