@@ -137,13 +137,12 @@ async function update() {
     core.startGroup('Create commit')
     let commitSha
     try {
-        console.log(github.context.payload.head_commit)
         const commit = await octokit.git.createCommit({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             message: newVersion,
             tree: treeSha,
-            parents: [github.context.payload.head_commit.sha],
+            parents: [github.context.payload.head_commit.id],
             author: {
                 name: 'npm-version',
                 email: email
