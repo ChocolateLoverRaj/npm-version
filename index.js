@@ -157,7 +157,6 @@ async function update() {
     core.info(`Commit sha: ${commitSha}`)
     core.endGroup()
 
-    console.log(github.context)
     core.startGroup('Update ref')
     try {
         await octokit.git.updateRef({
