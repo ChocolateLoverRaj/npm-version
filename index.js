@@ -162,7 +162,7 @@ async function update() {
         await octokit.git.updateRef({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
-            ref: github.context.ref,
+            ref: github.context.ref.slice(5),
             sha: commitSha
         })
     } catch (e) {
