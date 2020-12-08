@@ -195,7 +195,8 @@ async function update() {
             await octokit.actions.createWorkflowDispatch({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
-                workflow_id: workflowRef || github.context.payload.repository.default_branch
+                workflow_id: workflowId,
+                ref: workflowRef || github.context.payload.repository.default_branch
             })
         } catch (e) {
             core.error(e.stack)
