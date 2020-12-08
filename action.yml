@@ -12,9 +12,8 @@ inputs:
     required: false
     default: ''
   on_finish:
-    description: 'Trigger a manual workflow on finish. To specify the ref, separate with comma.'
+    description: 'A node file to call when this is finished. The file must export a function which is called with the octokit. The function can return a promise.'
     required: false
-    default: ''
 runs:
   using: 'node12'
   pre: 'install.js'

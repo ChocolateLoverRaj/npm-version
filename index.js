@@ -1,5 +1,6 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
+const path = require('path')
 const { promises: { readFile }, existsSync } = require('fs')
 
 const versions = ['major', 'minor', 'patch']
@@ -188,22 +189,17 @@ async function update() {
     }
     core.endGroup()
 
-    core.startGroup('Dispatch workflow')
-    const [workflowId, workflowRef] = core.getInput('on_finish').split(',')
-    if (workflowId) {
+    core.startGroup('Run on finish function')
+    const onFinish = core.getInput('on_finish')
+    if (onFinish) {
         try {
-            await octokit.actions.createWorkflowDispatch({
-                owner: github.context.repo.owner,
-                repo: github.context.repo.repo,
-                workflow_id: workflowId,
-                ref: workflowRef || github.context.payload.repository.default_branch
-            })
+            await require(path.join(process.cwd(), onFinish))(octokit)
         } catch (e) {
             core.error(e.stack)
-            core.setFailed('Error dispatching workflow')
+            core.setFailed('Error calling function')
         }
     } else {
-        core.info('No workflow given')
+        core.info('No file given')
         core.info('Skipping step')
     }
     core.endGroup()
