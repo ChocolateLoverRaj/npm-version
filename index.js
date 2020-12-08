@@ -191,9 +191,17 @@ async function update() {
 
     core.startGroup('Run on finish function')
     const onFinish = core.getInput('on_finish')
+    const onFinishConfig = core.getInput('on_finish_config')
     if (onFinish) {
         try {
-            await require(path.join(process.cwd(), onFinish))(github, octokit)
+            const onFinishPath = onFinish.startsWith('.')
+                ? path.join(process.cwd(), onFinish)
+                : path.join(__dirname, './on-finish', onFinish)
+            await require(onFinishPath)({
+                github: github,
+                octokit: octokit,
+                config: onFinishConfig
+            })
         } catch (e) {
             core.error(e.stack)
             core.setFailed('Error calling function')
