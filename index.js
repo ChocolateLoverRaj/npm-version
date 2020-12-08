@@ -28,7 +28,7 @@ async function update() {
         core.endGroup()
     }
 
-    core.startGroup('Update versions')
+    let newVersion
     async function updateVersion(file) {
         core.startGroup(`Update ${file} version`)
         core.info(`Read ${file}`)
@@ -56,7 +56,7 @@ async function update() {
         for (let i = versionPosition + 1; i < versions.length; i++) {
             semver[i] = '0'
         }
-        const newVersion = semver.join('.')
+        newVersion = semver.join('.')
         core.info(`New version: ${newVersion}`)
         packageJson.version = newVersion
         core.endGroup()
@@ -75,7 +75,6 @@ async function update() {
         core.endGroup()
         packageLock = false
     }
-    core.endGroup()
 
     const octokit = github.getOctokit(core.getInput('token'))
     async function createBlob(content, file) {
@@ -87,6 +86,7 @@ async function update() {
                 content: content,
                 encoding: 'utf-8'
             })
+            core.info(`Blob sha: ${blob.data.sha}`)
             return blob.data.sha
         } catch (e) {
             core.error(e)
@@ -94,7 +94,6 @@ async function update() {
         }
         core.endGroup()
     }
-    core.startGroup('Create blobs')
     const packageJsonSha = await createBlob(packageJson, 'package.json')
     if (!packageJsonSha) {
         return
@@ -106,9 +105,9 @@ async function update() {
             return
         }
     }
-    core.endGroup()
 
     core.startGroup('Create tree')
+    let treeSha
     try {
         const tree = await octokit.git.createTree({
             owner: github.context.repo.owner,
@@ -126,12 +125,36 @@ async function update() {
             ],
             base_tree: github.context.payload.head_commit.tree_id
         })
-        sha = tree.data.sha
+        treeSha = tree.data.sha
     } catch (e) {
         core.error(e)
         core.setFailed('Error creating tree')
         return
     }
-    core.info(sha)
+    core.info(`Tree sha: ${treeSha}`)
+    core.endGroup()
+
+    core.startGroup('Create commit')
+    let commitSha
+    try {
+        console.log(github.context.payload.head_commit)
+        const commit = await octokit.git.createCommit({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            message: newVersion,
+            tree: treeSha,
+            parents: [github.context.payload.head_commit.sha],
+            author: {
+                name: 'npm-version',
+                email: email
+            }
+        })
+        commitSha = commit.data.sha
+    } catch (e) {
+        core.error(e)
+        core.setFailed('Error creating commit')
+        return
+    }
+    core.info(`Commit sha: ${commitSha}`)
     core.endGroup()
 }
