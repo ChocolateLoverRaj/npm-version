@@ -73,7 +73,6 @@ async function update() {
         core.info('Couldn\'t find package-lock.json')
         core.info('Skipping package-lock.json')
         core.endGroup()
-        packageLock = false
     }
 
     const octokit = github.getOctokit(core.getInput('token'))
@@ -109,20 +108,22 @@ async function update() {
     core.startGroup('Create tree')
     let treeSha
     try {
+        const files = [{
+            path: 'package.json',
+            sha: packageJsonSha,
+            mode: '100644'
+        }]
+        if (packageLock) {
+            files.push({
+                path: 'package-lock.json',
+                sha: packageLockSha,
+                mode: '100644'
+            })
+        }
         const tree = await octokit.git.createTree({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
-            tree: [
-                {
-                    path: 'package.json',
-                    sha: packageJsonSha,
-                    mode: '100644'
-                },
-                ...packageLock ? {
-                    path: 'package-lock.json',
-                    sha: packageLockSha
-                } : []
-            ],
+            tree: files,
             base_tree: github.context.payload.head_commit.tree_id
         })
         treeSha = tree.data.sha
