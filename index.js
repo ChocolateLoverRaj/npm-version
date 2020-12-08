@@ -36,7 +36,7 @@ async function update() {
         try {
             packageJson = await readFile(file)
         } catch (e) {
-            core.error(e)
+            core.error(e.stack)
             core.setFailed(`Error reading ${file}`)
             return
         }
@@ -45,7 +45,7 @@ async function update() {
         try {
             packageJson = JSON.parse(packageJson)
         } catch (e) {
-            core.error(e)
+            core.error(e.stack)
             core.setFailed(`Error parsing ${file}`)
         }
 
@@ -89,7 +89,7 @@ async function update() {
             core.info(`Blob sha: ${blob.data.sha}`)
             return blob.data.sha
         } catch (e) {
-            core.error(e)
+            core.error(e.stack)
             core.setFailed(`Error creating blob for ${file}`)
         }
         core.endGroup()
@@ -127,7 +127,7 @@ async function update() {
         })
         treeSha = tree.data.sha
     } catch (e) {
-        core.error(e)
+        core.error(e.stack)
         core.setFailed('Error creating tree')
         return
     }
@@ -150,7 +150,7 @@ async function update() {
         })
         commitSha = commit.data.sha
     } catch (e) {
-        core.error(e)
+        core.error(e.stack)
         core.setFailed('Error creating commit')
         return
     }
@@ -166,7 +166,7 @@ async function update() {
             sha: commitSha
         })
     } catch (e) {
-        core.error(e)
+        core.error(e.stack)
         core.setFailed('Error updating ref')
         return
     }
@@ -181,7 +181,7 @@ async function update() {
             head: commitSha
         })
     } catch (e) {
-        core.error(e)
+        core.error(e.stack)
         core.setFailed('Error merging branch')
         return
     }
