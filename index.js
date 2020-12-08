@@ -156,5 +156,19 @@ async function update() {
     }
     core.info(`Commit sha: ${commitSha}`)
     core.endGroup()
-    console.log(github.context)
+
+    core.startGroup('Update ref')
+    try {
+        await octokit.git.updateRef({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            ref: github.context.ref,
+            sha: commitSha
+        })
+    } catch (e) {
+        core.error(e)
+        core.setFailed('Error updating ref')
+        return
+    }
+    core.endGroup()
 }
