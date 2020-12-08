@@ -6,7 +6,6 @@ const versions = ['major', 'minor', 'patch']
 
 const version = core.getInput('version')
 if (versions.includes(version)) {
-    core.info('Updating package version')
     update()
 } else {
     core.setFailed('Invalid version. Use either major, minor, or patch.')
@@ -76,6 +75,7 @@ async function update() {
         core.endGroup()
         packageLock = false
     }
+    core.endGroup()
 
     const octokit = github.getOctokit(core.getInput('token'))
     async function createBlob(content, file) {
@@ -106,6 +106,7 @@ async function update() {
             return
         }
     }
+    core.endGroup()
 
     core.startGroup('Create tree')
     try {
@@ -133,5 +134,4 @@ async function update() {
     }
     core.info(sha)
     core.endGroup()
-    console.log(github.context.payload)
 }
