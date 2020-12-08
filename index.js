@@ -171,4 +171,21 @@ async function update() {
         return
     }
     core.endGroup()
+
+    core.startGroup('Merge into default branch')
+    console.log(github.context)
+    try {
+        return
+        await octokit.repos.merge({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            base: github.context.payload,
+            head: commitSha
+        })
+    } catch (e) {
+        core.error(e)
+        core.setFailed('Error merging branch')
+        return
+    }
+    core.endGroup()
 }
