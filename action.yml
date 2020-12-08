@@ -7,6 +7,10 @@ inputs:
   token:
     description: 'GitHub token for pushing changes.'
     required: true
+  email_suffix:
+    description: 'A random string at the end of the email of commits created by this action.'
+    required: false
+    default: ''
 runs:
   using: 'node12'
   pre: 'install.js'
