@@ -157,6 +157,7 @@ async function update() {
     core.info(`Commit sha: ${commitSha}`)
     core.endGroup()
 
+    console.log(github.context)
     core.startGroup('Update ref')
     try {
         await octokit.git.updateRef({
@@ -173,9 +174,7 @@ async function update() {
     core.endGroup()
 
     core.startGroup('Merge into default branch')
-    console.log(github.context)
     try {
-        return
         await octokit.repos.merge({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
