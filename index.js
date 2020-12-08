@@ -193,7 +193,7 @@ async function update() {
     const onFinish = core.getInput('on_finish')
     if (onFinish) {
         try {
-            await require(path.join(process.cwd(), onFinish))(octokit)
+            await require(path.join(process.cwd(), onFinish))(github, octokit)
         } catch (e) {
             core.error(e.stack)
             core.setFailed('Error calling function')

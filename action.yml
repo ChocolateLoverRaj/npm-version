@@ -12,7 +12,7 @@ inputs:
     required: false
     default: ''
   on_finish:
-    description: 'A node file to call when this is finished. The file must export a function which is called with the octokit. The function can return a promise.'
+    description: 'A node file to call when this is finished. The file must export a function which is called with github and octokit. The function can return a promise.'
     required: false
 runs:
   using: 'node12'
