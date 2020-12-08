@@ -187,4 +187,23 @@ async function update() {
         return
     }
     core.endGroup()
+
+    core.startGroup('Dispatch workflow')
+    const [workflowId, workflowRef] = core.getInput('on_finish').split(',')
+    if (workflowId) {
+        try {
+            await octokit.actions.createWorkflowDispatch({
+                owner: github.context.repo.owner,
+                repo: github.context.repo.repo,
+                workflow_id: workflowRef || github.context.payload.repository.default_branch
+            })
+        } catch (e) {
+            core.error(e.stack)
+            core.setFailed('Error dispatching workflow')
+        }
+    } else {
+        core.info('No workflow given')
+        core.info('Skipping step')
+    }
+    core.endGroup()
 }

@@ -11,6 +11,10 @@ inputs:
     description: 'A random string at the end of the email of commits created by this action.'
     required: false
     default: ''
+  on_finish:
+    description: 'Trigger a manual workflow on finish. To specify the ref, separate with comma.'
+    required: false
+    default: ''
 runs:
   using: 'node12'
   pre: 'install.js'
