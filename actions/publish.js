@@ -20,8 +20,10 @@ const runCommand = name => new Promise((resolve, reject) => {
 })
 
 module.exports = async () => {
+    core.info('check .npmrc')
+    console.log(await require('fs').promises.readFile('.npmrc'))
     core.info('Login to npm')
-    await runCommand('npm login')
+    //await runCommand('npm login')
     core.info('Publish package')
     await runCommand('npm publish')
 }
