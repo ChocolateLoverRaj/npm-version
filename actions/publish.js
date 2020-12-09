@@ -1,5 +1,6 @@
 const core = require('@actions/core')
 const { exec } = require('child_process')
+const { promises: { writeFile } } = require('fs')
 
 const runCommand = name => new Promise((resolve, reject) => {
     const command = exec(name)
@@ -20,10 +21,8 @@ const runCommand = name => new Promise((resolve, reject) => {
 })
 
 module.exports = async () => {
-    core.info('check .npmrc')
-    console.log(await require('fs').promises.readFile('.npmrc'))
-    core.info('Login to npm')
-    //await runCommand('npm login')
+    core.info('Create .npmrc')
+    await writeFile('.npmrc', '//registry.npmjs.org/:_authToken=${NPM_TOKEN}')
     core.info('Publish package')
     await runCommand('npm publish')
 }
