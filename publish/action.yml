@@ -1,6 +1,5 @@
 name: 'Auto Merge'
 description: 'Action to merge a branch into one or more branches.'
-inputs:
 runs:
   using: 'node12'
   pre: '../install.js'
