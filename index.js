@@ -193,18 +193,29 @@ async function update() {
     const onFinish = core.getInput('on_finish')
     const onFinishConfig = core.getInput('on_finish_config')
     if (onFinish) {
+        core.info('Reading on finish json')
+        let onFinishJson
         try {
-            const onFinishPath = onFinish.startsWith('.')
-                ? path.join(process.cwd(), onFinish)
-                : path.join(__dirname, './on-finish', onFinish)
-            await require(onFinishPath)({
-                github: github,
-                octokit: octokit,
-                config: onFinishConfig
-            })
+            onFinishJson = await readFile(onFinish)
         } catch (e) {
             core.error(e.stack)
-            core.setFailed('Error calling function')
+            core.setFailed('Error reading on finish json')
+        }
+
+        core.info('Parsing on finish json')
+        try {
+            onFinishJson = JSON.parse(onFinishJson)
+        } catch (e) {
+            core.error(e.stack)
+            core.setFailed('Error parsing on finish json')
+        }
+
+        core.info('Checking actions')
+        if (onFinishJson.merge) {
+            core.info('Running merge')
+            const getInput = k => onFinishJson.merge[k]
+            await require('./merge')({ github, octokit, getInput })
+            core.info('Done running merge')
         }
     } else {
         core.info('No file given')

@@ -1,0 +1,16 @@
+name: 'Auto Merge'
+description: 'Action to merge a branch into one or more branches.'
+inputs:
+  token:
+    description: 'GitHub token for merging branches.'
+    required: true
+  bases:
+    description: 'Branches to merge the head into, separated by commas.'
+    required: true
+  head:
+    description: 'The branch to merge into other branches. Uses the default branch by default.'
+    required: false
+runs:
+  using: 'node12'
+  pre: 'install.js'
+  main: 'index.js'

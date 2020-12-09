@@ -7,17 +7,11 @@ inputs:
   token:
     description: 'GitHub token for pushing changes.'
     required: true
-  email_suffix:
-    description: 'A random string at the end of the email of commits created by this action.'
+  on_finish:
+    description: 'Path to json file with on finish actions.'
     required: false
     default: ''
-  on_finish:
-    description: 'A node file to call when this is finished. The file must export a function which is called with github and octokit. The function can return a promise.'
-    required: false
-  on_finish_config:
-    description: 'Config to pass to the file which is called on finish.'
-    required: false
 runs:
   using: 'node12'
-  pre: 'install.js'
+  pre: '../install.js'
   main: 'index.js'
