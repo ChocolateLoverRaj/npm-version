@@ -24,5 +24,5 @@ module.exports = async () => {
     core.info('Create .npmrc')
     await writeFile('.npmrc', '//registry.npmjs.org/:_authToken=${NPM_TOKEN}')
     core.info('Publish package')
-    await runCommand('npm publish')
+    await runCommand('npm publish --access public')
 }
