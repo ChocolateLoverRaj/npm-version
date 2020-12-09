@@ -11,7 +11,4 @@ module.exports = async ({ github, octokit, getInput }) => {
             head: head
         })
     }))
-        .catch(e => {
-            core.setFailed(e)
-        })
 }

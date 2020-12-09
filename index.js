@@ -214,7 +214,13 @@ async function update() {
         for await (const [k, v] of Object.entries(onFinishJson)) {
             core.info(`Running action: ${k}`)
             const getInput = k => v[k]
-            await require(`./actions/${k}`)({ github, octokit, getInput })
+            try {
+                await require(`./actions/${k}`)({ github, octokit, getInput })
+            } catch (e) {
+                core.error(e.stack)
+                core.setFailed('Error running action')
+                return
+            }
         }
         core.info('Done running actions')
     } else {
