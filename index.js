@@ -210,13 +210,13 @@ async function update() {
             core.setFailed('Error parsing on finish json')
         }
 
-        core.info('Checking actions')
-        if (onFinishJson.merge) {
-            core.info('Running merge')
-            const getInput = k => onFinishJson.merge[k]
-            await require('./merge')({ github, octokit, getInput })
-            core.info('Done running merge')
+        core.info('Running actions')
+        for await (const [k, v] of Object.entries(onFinishJson)) {
+            core.info(`Running action: ${k}`)
+            const getInput = k => v[k]
+            await require(`./actions/${k}`)({ github, octokit, getInput })
         }
+        core.info('Done running actions')
     } else {
         core.info('No file given')
         core.info('Skipping step')

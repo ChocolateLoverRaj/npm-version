@@ -1,4 +1,4 @@
-const merge = require('../merge')
+const merge = require('../actions/merge')
 const core = require('@actions/core')
 const github = require('@actions/github')
 const octokit = github.getOctokit(core.getInput('token'))
