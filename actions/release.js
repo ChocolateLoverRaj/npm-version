@@ -1,5 +1,5 @@
 const core = require('@actions/core')
-const { promise: { readFile } } = require('fs')
+const { promises: { readFile } } = require('fs')
 
 module.exports = async ({ octokit, github }) => {
     core.info('Read package.json')
