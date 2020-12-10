@@ -6,9 +6,7 @@ module.exports = async ({ octokit, github }) => {
     const packageJsonRaw = await readFile('package.json')
     core.info('Parse package.json')
     const packageJson = JSON.parse(packageJsonRaw)
-    const versionRaw = packageJson.version
-    core.info('Parse version')
-    const version = parseInt(versionRaw)
+    const version = packageJson.version
     core.info(`Release version: ${version}`)
     await octokit.repos.createRelease({
         owner: github.context.repo.owner,
