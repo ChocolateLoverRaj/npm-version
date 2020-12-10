@@ -3,7 +3,7 @@ const { promises: { readFile } } = require('fs')
 
 module.exports = async ({ octokit, github }) => {
     core.info('Read package.json')
-    const packageJsonRaw = readFile('package.json', 'utf8')
+    const packageJsonRaw = await readFile('package.json')
     core.info('Parse package.json')
     const packageJson = JSON.parse(packageJsonRaw)
     const versionRaw = packageJson.version
