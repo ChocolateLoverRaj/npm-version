@@ -9,6 +9,7 @@ const publish = exec('npm publish --access publish --dry-run')
 const publishOutput = createInterface({ input: publish.stdout })
 let shasum
 publishOutput.on('line', line => {
+    console.log(line)
     if (line.startsWith(shasumText)) {
         shasum = line.slice(shasumText.length).trim()
         core.info(`Package shasum: ${shasum}`)
