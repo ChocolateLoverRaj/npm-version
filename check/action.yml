@@ -1,0 +1,6 @@
+name: 'Check Npm'
+description: 'Checks if there are any changes to the npm package.'
+runs:
+  using: 'node12'
+  pre: '../install.js'
+  main: 'index.js'
