@@ -6,6 +6,13 @@ const { get } = require('https')
 const shasumText = 'npm notice shasum:'
 const nameText = 'npm notice name:'
 
+let same = core.getInput('same')
+if (['true', 'false'].includes(same)) {
+    same = same === 'true'
+} else {
+    core.error('Invalid same input. Must be either true or false (lowercase).')
+    process.exit(1)
+}
 core.info('Running npm publish --access public --dry-run')
 const publish = exec('npm publish --access public --dry-run')
 const publishOutput = createInterface({ input: publish.stderr })
@@ -36,6 +43,12 @@ publish.on('exit', code => {
                     core.setFailed('Error parsing json')
                 }
                 core.info(`Latest shasum: ${json.dist.shasum}`)
+                const isSame = shasum === json.dist.shasum
+                if (same && !isSame) {
+                    core.setFailed('Expected npm package to be same, but it\'s not.')
+                } else if (!same && isSame) {
+                    core.setFailed('Expected npm package to be different, but it\'s not.')
+                }
             })
         })
     } else {
