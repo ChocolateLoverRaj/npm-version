@@ -23,7 +23,7 @@ publishOutput.on('line', line => {
 publish.on('exit', code => {
     if (!code) {
         core.info('Fetching latest shasum from npm registry')
-        get(`registry.npmjs.org/${name}/latest`).once('response', res => {
+        get(`https://registry.npmjs.org/${name}/latest`).once('response', res => {
             let json = ''
             res.on('data', chunk => {
                 json += chunk
