@@ -78,6 +78,14 @@ async function update() {
 
     const octokit = github.getOctokit(core.getInput('token'))
     async function createBlob(content, file) {
+        core.startGroup(`Write file: ${file}`)
+        try {
+            await writeFile(file, content)
+        } catch (e) {
+            core.error(e.stack)
+            core.setFailed(`Error writing file: ${file}`)
+        }
+        core.endGroup()
         core.startGroup(`Create blob for ${file}`)
         try {
             const blob = await octokit.git.createBlob({
@@ -91,14 +99,6 @@ async function update() {
         } catch (e) {
             core.error(e.stack)
             core.setFailed(`Error creating blob for ${file}`)
-        }
-        core.endGroup()
-        core.startGroup(`Write file: ${file}`)
-        try {
-            await writeFile(file, content)
-        } catch (e) {
-            core.error(e.stack)
-            core.setFailed(`Error writing file: ${file}`)
         }
         core.endGroup()
     }
