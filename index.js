@@ -1,6 +1,7 @@
+const onFinishSchema = require('./on-finish-schema.json')
 const core = require('@actions/core')
 const github = require('@actions/github')
-const path = require('path')
+const { validate } = require('jsonschema')
 const { promises: { readFile, writeFile }, existsSync } = require('fs')
 
 const versions = ['major', 'minor', 'patch']
@@ -215,6 +216,14 @@ async function update() {
         } catch (e) {
             core.error(e.stack)
             core.setFailed('Error parsing on finish json')
+        }
+
+        core.info('Validating on finish json')
+        try {
+            validate(onFinishJson, onFinishSchema, { throwAll: true })
+        } catch (e) {
+            core.error(e.stack)
+            core.setFailed('Invalid on finish json')
         }
 
         core.info('Running actions')
