@@ -8,7 +8,7 @@ const { get } = require('https')
 const { deepStrictEqual } = require('assert')
 
 const getRaw = async path => await new Promise((resolve, reject) => {
-    get(`https://raw.githubusercontent.com/${github.context.repo.owner}/${github.context.repo.repo}/${path}`, res => {
+    get(`https://raw.githubusercontent.com/${github.context.repo.owner}/${github.context.repo.repo}/${github.context.payload.pull_request.base.ref}/${path}`, res => {
         if (res.statusCode === 200) {
             resolve(toString(res))
         } else if (res.statusCode === 404) {
