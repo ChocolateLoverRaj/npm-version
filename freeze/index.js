@@ -43,7 +43,7 @@ const start = async () => {
     core.info('Validating json')
     const v = new Validator()
     v.validate(json, schema, { throwAll: true })
-    core.info(`Checking ${json.length} files`)
+    core.info(`Checking ${json.files.length} files`)
     await Promise.all(json.files.map(async ({ file, freeze }) => {
         const previousJson = JSON.parse(await getRaw(file))
         if (previousJson === null) {
