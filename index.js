@@ -1,7 +1,7 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const path = require('path')
-const { promises: { readFile }, existsSync } = require('fs')
+const { promises: { readFile, writeFile }, existsSync } = require('fs')
 
 const versions = ['major', 'minor', 'patch']
 
@@ -93,6 +93,14 @@ async function update() {
             core.setFailed(`Error creating blob for ${file}`)
         }
         core.endGroup()
+        core.startGroup(`Write file: ${file}`)
+        try {
+            await writeFile(file, content)
+        } catch (e) {
+            core.error(e.stack)
+            core.setFailed(`Error writing file: ${file}`)
+        }
+        core.endGroup
     }
     const packageJsonSha = await createBlob(packageJson, 'package.json')
     if (!packageJsonSha) {
@@ -191,7 +199,6 @@ async function update() {
 
     core.startGroup('Run on finish function')
     const onFinish = core.getInput('on_finish')
-    const onFinishConfig = core.getInput('on_finish_config')
     if (onFinish) {
         core.info('Reading on finish json')
         let onFinishJson
