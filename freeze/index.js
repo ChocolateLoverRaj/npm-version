@@ -55,6 +55,6 @@ const start = async () => {
 }
 
 start().catch(e => {
-    console.error(e.stack)
+    console.error(e.stack || e)
     process.exit(1)
 })
