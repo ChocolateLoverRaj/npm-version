@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "definitions": {
+        "freeze": {
+            "oneOf": [
+                {
+                    "type": "boolean"
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/freeze"
+                    }
+                }
+            ]
+        }
+    },
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "file": {
+                "type": "string"
+            },
+            "freeze": {
+                "$ref": "#/definitions/freeze"
+            }
+        }
+    }
+}

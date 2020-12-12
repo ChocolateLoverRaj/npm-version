@@ -4,9 +4,6 @@ inputs:
   options:
     description: 'Path to a json file with options.'
     required: true
-  token:
-    description: 'GitHub token. Can be provided for better limits or private repos.'
-    required: false
 runs:
   using: 'node12'
   pre: '../install.js'
