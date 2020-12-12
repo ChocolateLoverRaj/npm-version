@@ -1,4 +1,5 @@
 const core = require('@actions/core')
+const github = require('@actions/github')
 const { Validator } = require('jsonschema')
 const { promises: { readFile } } = require('fs')
 
@@ -22,9 +23,10 @@ const start = async () => {
             required: ['file']
         }
     }, { throwAll: true })
-    core.info(`Validating ${v.length} files`)
+    core.info(`Checking ${json.length} files`)
     await Promise.all(json.map(async ({ file }) => {
-        core.info(`file: ${file}`)
+        core.info(`Fetching current file: ${file}`)
+        console.log(github.context.payload)
     }))
 }
 
