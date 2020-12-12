@@ -100,7 +100,7 @@ async function update() {
             core.error(e.stack)
             core.setFailed(`Error writing file: ${file}`)
         }
-        core.endGroup
+        core.endGroup()
     }
     const packageJsonSha = await createBlob(packageJson, 'package.json')
     if (!packageJsonSha) {
