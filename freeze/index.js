@@ -21,7 +21,7 @@ const start = async () => {
             },
             required: ['file']
         }
-    })
+    }, { throwAll: true })
     core.info(`Validating ${v.length} files`)
     await Promise.all(json.map(async ({ file }) => {
         core.info(`file: ${file}`)
