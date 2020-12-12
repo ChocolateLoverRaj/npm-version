@@ -3,7 +3,7 @@ const { Validator } = require('jsonschema')
 const { promises: { readFile } } = require('fs')
 
 const start = async () => {
-    const jsonPath = core.getInput('json')
+    const jsonPath = core.getInput('options')
     core.info(`Reading json file: ${jsonPath}`)
     const jsonRaw = await readFile(jsonPath)
     core.info('Parsing json')
