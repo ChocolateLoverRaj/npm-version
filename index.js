@@ -228,6 +228,9 @@ async function update() {
 
         core.info('Running actions')
         for await (const [k, v] of Object.entries(onFinishJson)) {
+            if (k === '$schema') {
+                continue
+            }
             core.info(`Running action: ${k}`)
             const getInput = k => v[k]
             try {
