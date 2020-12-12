@@ -37,7 +37,7 @@ const start = async () => {
     const json = JSON.parse(jsonRaw)
     core.info('Checking previous json file')
     const previousJson = await getRaw(jsonPath)
-    if (previousJson !== null && previousJson !== jsonRaw) {
+    if (previousJson !== null && previousJson.trim() !== jsonRaw.trim()) {
         throw new Error('Json file was modified. Ignore this check if this change was intended.')
     }
     core.info('Validating json')
