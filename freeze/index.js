@@ -44,7 +44,7 @@ const start = async () => {
     const v = new Validator()
     v.validate(json, schema, { throwAll: true })
     core.info(`Checking ${json.length} files`)
-    await Promise.all(json.map(async ({ file, freeze }) => {
+    await Promise.all(json.files.map(async ({ file, freeze }) => {
         const previousJson = JSON.parse(await getRaw(file))
         if (previousJson === null) {
             throw new Error(`File: ${file} does not exist in base.`)
