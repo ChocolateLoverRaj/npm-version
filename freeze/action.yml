@@ -1,0 +1,10 @@
+name: 'Freeze Json'
+description: 'Makes sure that some keys have not changed in json.'
+inputs:
+  options:
+    description: 'Path to a json file with options.'
+    required: true
+runs:
+  using: 'node12'
+  pre: '../install.js'
+  main: 'index.js'
