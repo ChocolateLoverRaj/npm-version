@@ -15,16 +15,28 @@
             ]
         }
     },
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
-            "file": {
-                "type": "string"
-            },
-            "freeze": {
-                "$ref": "#/definitions/freeze"
+    "type": "object",
+    "properties": {
+        "files": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "type": "string"
+                    },
+                    "freeze": {
+                        "$ref": "#/definitions/freeze"
+                    }
+                },
+                "required": [
+                    "file",
+                    "freeze"
+                ]
             }
         }
-    }
+    },
+    "required": [
+        "files"
+    ]
 }
