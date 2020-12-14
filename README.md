@@ -7,7 +7,7 @@ These GitHub actions are for setting up automated npm package versioning and pub
 ## Setup
 Follow these steps to setup a GitHub repo which uses these actions.
 
-### npm-version
+### Npm-version
 Updates the version to be either major, minor, or patch. It updates the `package.json` `version` field, and if `package-lock.json` exists, it also updates that `version` field.
 
 Create the following branches
@@ -37,7 +37,7 @@ jobs:
 ```
 This workflow runs on the `push` event for the branch. First it checks out the repository, and then it uses the `npm-version` action. Then it merges the branch into the main branch. It needs two inputs. The version input is either `'major'`, `'minor'`, or `'patch'`. The token input is the repo GitHub token, needed for pushing commits and merging branches.
 
-### merging
+### Merging
 Since pull requests will be going into all four of the `main`, `major`, `minor`, and `patch` branches, it helps to have all of those branches up to date with each other. 
 
 Create the workflow `merge.yml`:
@@ -150,7 +150,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Check Npm
-        uses: ChocolateLoverRaj/npm-version/check@main
+        uses: ChocolateLoverRaj/npm-version/check@1.0.0
         with:
           same: true
 ```
@@ -173,7 +173,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Check Json
-        uses: ChocolateLoverRaj/npm-version/freeze@main
+        uses: ChocolateLoverRaj/npm-version/freeze@1.0.0
         with:
           options: 'freeze.json'
 ```
