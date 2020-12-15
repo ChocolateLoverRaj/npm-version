@@ -2,7 +2,10 @@ const globber = require('@actions/glob')
 const { promises: { readFile } } = require('fs')
 
 module.exports = async ({ github, octokit, getInput }) => {
-    const branch = `refs/heads/${getInput('branch')}` || github.context.ref
+    const branchInput = getInput('branch')
+    const branch = branchInput
+        ? `refs/heads/${branchInput}`
+        : github.context.ref
     const lastCommit = await octokit.git.getRef({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
