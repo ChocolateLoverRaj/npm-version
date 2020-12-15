@@ -44,8 +44,8 @@ module.exports = async ({ github, octokit, getInput }) => {
         tree: tree.data.sha,
         parents: [lastCommit.data.sha],
         author: {
-            name: getInput('author'),
-            email: getInput('email')
+            name: getInput('author') || 'npm-version/commit',
+            email: getInput('email') || 'npm-version/commit[bot]'
         }
     })
     await octokit.git.updateRef({

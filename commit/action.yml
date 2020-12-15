@@ -7,17 +7,17 @@ inputs:
   message:
     description: 'The commit message.'
     required: true
-  author:
-    description: 'The name of the author.'
-    required: true
-  email:
-    description: 'The email of the author.'
-    required: true
   token:
     description: 'The GitHub token.'
     required: true
   branch:
     description: 'The branch to create the commit on.'
+    required: false
+  author:
+    description: 'The name of the author.'
+    required: false
+  email:
+    description: 'The email of the author.'
     required: false
 runs:
   using: 'node12'
