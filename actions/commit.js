@@ -4,8 +4,9 @@ const { promises: { readFile } } = require('fs')
 module.exports = async ({ github, octokit, getInput }) => {
     const branchInput = getInput('branch')
     const branch = branchInput
-        ? `refs/heads/${branchInput}`
-        : github.context.ref
+        ? `heads/${branchInput}`
+        : github.context.ref.slice(5)
+
     const lastCommit = await octokit.git.getRef({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
