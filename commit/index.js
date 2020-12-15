@@ -7,4 +7,7 @@ commit({
     github: github,
     octokit: octokit,
     getInput: core.getInput
+}).catch(e => {
+    console.error(e.stack || e)
+    process.exit(1)
 })
