@@ -15,7 +15,7 @@ module.exports = async ({ github, octokit, getInput }) => {
     const lastTree = await octokit.git.getCommit({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        commit_sha: lastCommit.data.sha
+        commit_sha: lastCommit.data.object.sha
     })
     const glob = await globber.create(getInput('files'))
     const files = await glob.glob()
@@ -35,14 +35,14 @@ module.exports = async ({ github, octokit, getInput }) => {
             mode: '100644',
             sha: blob
         })),
-        base_tree: lastTree.data.sha
+        base_tree: lastTree.data.tree.sha
     })
     const commit = await octokit.git.createCommit({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         message: getInput('message'),
         tree: tree.data.sha,
-        parents: [lastCommit.data.sha],
+        parents: [lastCommit.data.object.sha],
         author: {
             name: getInput('author') || 'npm-version/commit',
             email: getInput('email') || 'npm-version/commit[bot]'
