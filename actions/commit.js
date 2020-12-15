@@ -1,5 +1,6 @@
 const globber = require('@actions/glob')
 const { promises: { readFile } } = require('fs')
+const { relative } = require('path')
 
 module.exports = async ({ github, octokit, getInput }) => {
     const branchInput = getInput('branch')
@@ -24,7 +25,7 @@ module.exports = async ({ github, octokit, getInput }) => {
             repo: github.context.repo.repo,
             content: await readFile(file, 'base64')
         })
-        return [file, blob.data.sha]
+        return [relative(process.cwd(), file), blob.data.sha]
     }))
     const tree = await octokit.git.createTree({
         owner: github.context.repo.owner,
