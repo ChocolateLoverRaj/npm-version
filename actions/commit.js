@@ -2,10 +2,15 @@ const globber = require('@actions/glob')
 const { promises: { readFile } } = require('fs')
 
 module.exports = async ({ github, octokit, getInput }) => {
+    const branch = getInput('branch')
+    if (!branch) {
+        console.log(github.context)
+        return
+    }
     const lastCommit = await octokit.git.getRef({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        ref: getInput('branch')
+        ref: branch
     })
     const lastTree = await octokit.git.getCommit({
         owner: github.context.repo.owner,
@@ -46,7 +51,7 @@ module.exports = async ({ github, octokit, getInput }) => {
     await octokit.git.updateRef({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        ref: getInput('branch'),
+        ref: branch,
         sha: commit.data.sha
     })
 }
