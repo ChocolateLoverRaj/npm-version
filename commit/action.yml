@@ -1,0 +1,25 @@
+name: 'Commit'
+description: 'Commits files.'
+inputs:
+  branch:
+    description: 'The branch to create the commit on.'
+    required: true
+  files:
+    description: 'The files to commit.'
+    required: true
+  message:
+    description: 'The commit message.'
+    required: true
+  author:
+    description: 'The name of the author.'
+    required: true
+  email:
+    description: 'The email of the author.'
+    required: true
+  token:
+    description: 'The GitHub token.'
+    required: true
+runs:
+  using: 'node12'
+  pre: '../install.js'
+  main: 'index.js'
