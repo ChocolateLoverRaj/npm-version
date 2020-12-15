@@ -50,6 +50,17 @@
                 "files",
                 "message"
             ]
+        },
+        "run-command": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "command"
+            ]
         }
     },
     "additionalProperties": false
