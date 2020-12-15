@@ -23,7 +23,8 @@ module.exports = async ({ github, octokit, getInput }) => {
         const blob = await octokit.git.createBlob({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
-            content: await readFile(file, 'base64')
+            content: await readFile(file, 'base64'),
+            encoding: 'base64'
         })
         return [relative(process.cwd(), file), blob.data.sha]
     }))
