@@ -6,7 +6,7 @@ module.exports = async ({ github, octokit, getInput }) => {
     const branch = branchInput
         ? `heads/${branchInput}`
         : github.context.ref.slice(5)
-
+    console.log(branch, github.context.ref, github.context)
     const lastCommit = await octokit.git.getRef({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
