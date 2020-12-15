@@ -20,7 +20,6 @@ module.exports = async ({ github, octokit, getInput }) => {
     const glob = await globber.create(getInput('files'))
     const files = await glob.glob()
     console.log('Files:', files)
-    console.log(readFileSync(files[0], 'utf8'))
     const blobs = await Promise.all(files.map(async file => {
         const blob = await octokit.git.createBlob({
             owner: github.context.repo.owner,
