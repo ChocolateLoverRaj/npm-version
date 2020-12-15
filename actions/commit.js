@@ -11,7 +11,6 @@ module.exports = async ({ github, octokit, getInput }) => {
         repo: github.context.repo.repo,
         ref: branch
     })
-    console.log(lastCommit)
     const lastTree = await octokit.git.getCommit({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -23,7 +22,7 @@ module.exports = async ({ github, octokit, getInput }) => {
         const blob = await octokit.git.createBlob({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
-            content: readFile(file, 'base64')
+            content: await readFile(file, 'base64')
         })
         return [file, blob.data.sha]
     }))
