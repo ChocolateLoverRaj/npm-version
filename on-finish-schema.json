@@ -26,6 +26,41 @@
             "type": "object",
             "properties": {},
             "additionalProperties": false
+        },
+        "commit": {
+            "type": "object",
+            "properties": {
+                "branch": {
+                    "type": "string"
+                },
+                "files": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "files",
+                "message"
+            ]
+        },
+        "run-command": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "command"
+            ]
         }
     },
     "additionalProperties": false
