@@ -28,7 +28,7 @@ module.exports = async ({ github, octokit, getInput }) => {
             tree_sha: lastCommit.data.tree.sha,
             recursive: recursive
         })
-        console.log(lastTree.data.tree)
+        console.log(lastTree.data.tree, files)
     }
     const blobs = (await Promise.all(files.map(async file => {
         const blob = await octokit.git.createBlob({
