@@ -39,7 +39,7 @@ module.exports = async ({ github, octokit, getInput }) => {
         return [relative(process.cwd(), file), blob.data.sha]
     }))).filter(([file, sha]) => {
         const previousFile = lastTree.data.tree.find(({ path }) => path === file)
-        return previousFile && previousFile.sha === sha
+        return previousFile && previousFile.sha !== sha
     })
     console.log(blobs.length)
     if (!blobs.length) {
