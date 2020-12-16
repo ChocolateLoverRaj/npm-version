@@ -21,10 +21,16 @@ module.exports = async ({ github, octokit, getInput }) => {
     const glob = await globber.create(getInput('files'))
     const files = await glob.glob()
     if (getInput('empty') === 'false') {
-        const recursive = files.find((path => /\/\\/.test(path)))
-        console.log(recursive)
+        const recursive = files.find((path => /\/\\/.test(path))) !== undefined
+        lastTree = await octokit.git.getTree({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            tree_sha: lastCommit.data.tree.sha,
+            recursive: recursive
+        })
+        console.log(lastTree)
     }
-    const blobs = await Promise.all(files.map(async file => {
+    const blobs = (await Promise.all(files.map(async file => {
         const blob = await octokit.git.createBlob({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
@@ -32,7 +38,7 @@ module.exports = async ({ github, octokit, getInput }) => {
             encoding: 'base64'
         })
         return [relative(process.cwd(), file), blob.data.sha]
-    }))
+    })))//.filter(([file, sha]) => !lastTree.data.tree.find(({path}) =)
     const tree = await octokit.git.createTree({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
