@@ -37,18 +37,20 @@ module.exports = async ({ github, octokit, getInput }) => {
             encoding: 'base64'
         })
         return [relative(process.cwd(), file), blob.data.sha]
-    }))).filter(([file, sha]) => {
-        const previousFile = lastTree.data.tree.find(({ path }) => path === file)
-        return previousFile && previousFile.sha !== sha
-    })
-    console.log(blobs.length)
-    if (!blobs.length) {
+    })))
+    const filteredBlobs = lastTree
+        ? blobs.filter(([file, sha]) => {
+            const previousFile = lastTree.data.tree.find(({ path }) => path === file)
+            return previousFile && previousFile.sha !== sha
+        })
+        : blobs
+    if (!filteredBlobs.length) {
         return
     }
     const tree = await octokit.git.createTree({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        tree: blobs.map(([file, blob]) => ({
+        tree: filteredBlobs.map(([file, blob]) => ({
             path: file,
             mode: '100644',
             sha: blob
