@@ -1,17 +1,20 @@
-const core = require('@actions/core')
+const handle = require('../lib/handle')
+const { getInput } = require('@actions/core')
+const github = require('@actions/github')
 const { promises: { readFile } } = require('fs')
 
-module.exports = async ({ octokit, github }) => {
-    core.info('Read package.json')
+handle(async () => {
+    const octokit = github.getOctokit(getInput('token'))
+    console.log('Read package.json')
     const packageJsonRaw = await readFile('package.json')
-    core.info('Parse package.json')
+    console.log('Parse package.json')
     const packageJson = JSON.parse(packageJsonRaw)
     const version = packageJson.version
-    core.info(`Release version: ${version}`)
+    console.log(`Release version: ${version}`)
     await octokit.repos.createRelease({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         tag_name: version,
         target_commitish: github.context.payload.repository.default_branch
     })
-}
+})
