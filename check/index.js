@@ -17,6 +17,7 @@ const publishOutput = createInterface({ input: publish.stderr })
 let shasum
 let name
 publishOutput.on('line', line => {
+    console.log(line)
     if (line.startsWith(shasumText)) {
         shasum = line.slice(shasumText.length).trim()
         console.log(`Package shasum: ${shasum}`)
