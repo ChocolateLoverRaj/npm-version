@@ -16,6 +16,8 @@ handle(async () => {
     const packageJson = JSON.parse(await readFile('package.json'))
     const versions = ['major', 'minor', 'patch']
     const version = core.getInput('version') || github.context.ref.slice(12)
+    console.log(github.context.ref)
+    return
     const semver = packageJson.version.split('.')
     const versionPosition = versions.indexOf(version)
     semver[versionPosition] = parseInt(semver[versionPosition]) + 1
