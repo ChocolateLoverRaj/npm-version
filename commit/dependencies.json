@@ -1,5 +1,5 @@
 [
-    "@actions/blob",
+    "@actions/glob",
     "@actions/github",
     "@actions/core"
 ]
