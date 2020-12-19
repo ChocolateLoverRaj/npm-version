@@ -1,6 +1,6 @@
-name: 'Auto Merge'
-description: 'Action to merge a branch into one or more branches.'
+name: 'Publish'
+description: 'Publishes the package to npm.'
 runs:
   using: 'node12'
-  pre: '../install.js'
+  pre: 'install.js'
   main: 'index.js'

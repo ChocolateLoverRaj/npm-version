@@ -1,17 +1,13 @@
 name: 'Npm Version'
 description: 'Workflow that updates npm version.'
 inputs:
-  version:
-    description: 'Whether the version is major, minor, or patch.'
-    required: true
   token:
     description: 'GitHub token for pushing changes.'
     required: true
-  on_finish:
-    description: 'Path to json file with on finish actions.'
+  version:
+    description: 'Whether the version is major, minor, or patch.'
     required: false
-    default: ''
 runs:
   using: 'node12'
-  pre: 'install.js'
-  main: 'index.js'
+  pre: 'version/install.js'
+  main: 'version/index.js'

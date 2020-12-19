@@ -3,8 +3,8 @@ description: 'Checks if there are any changes to the npm package.'
 inputs:
   same:
     description: 'Set to false to fail on no changes. Set to true to fail on changes.'
-    required: true
+    required: false
 runs:
   using: 'node12'
-  pre: '../install.js'
+  pre: 'install.js'
   main: 'index.js'
