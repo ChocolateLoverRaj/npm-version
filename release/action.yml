@@ -1,0 +1,10 @@
+name: 'Release'
+description: 'Action to create a release on GitHub.'
+inputs:
+  token:
+    description: 'GitHub token for creating release.'
+    required: true
+runs:
+  using: 'node12'
+  pre: '../install.js'
+  main: 'index.js'

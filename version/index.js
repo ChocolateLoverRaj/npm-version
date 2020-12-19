@@ -4,7 +4,7 @@ const github = require('@actions/github')
 const { promises: { readFile, writeFile, access }, constants } = require('fs')
 
 handle(async () => {
-    const packageLock = (async () => {
+    const packageLock = await (async () => {
         try {
             access('package-lock.json', constants.R_OK | constants.W_OK)
         } catch {
@@ -14,6 +14,8 @@ handle(async () => {
     })()
 
     const packageJson = JSON.parse(await readFile('package.json'))
+    const versions = ['major', 'minor', 'patch']
+    const version = core.getInput('version') || github.context.ref.slice(12)
     const semver = packageJson.version.split('.')
     const versionPosition = versions.indexOf(version)
     semver[versionPosition] = parseInt(semver[versionPosition]) + 1
@@ -29,7 +31,7 @@ handle(async () => {
     if (packageLock) {
         const packageLockJson = JSON.parse(await readFile('package-lock.json'))
         packageLockJson.version = newVersion
-        const packageLockStr = JSON.stringify(packageLockJson, undefined, 2)
+        packageLockStr = JSON.stringify(packageLockJson, undefined, 2)
         await writeFile('package-lock.json', packageLockStr)
     }
 
@@ -43,13 +45,13 @@ handle(async () => {
         })
         return blob.data.sha
     }
-    const packageJsonSha = await createBlob(packageJson, 'package.json')
+    const packageJsonSha = await createBlob(packageJsonStr, 'package.json')
     if (!packageJsonSha) {
         return
     }
     let packageLockSha
     if (packageLock) {
-        packageLockSha = await createBlob(packageLock, 'package-lock.json')
+        packageLockSha = await createBlob(packageLockStr, 'package-lock.json')
         if (!packageLockSha) {
             return
         }
