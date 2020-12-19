@@ -85,7 +85,7 @@ handle(async () => {
         parents: [github.context.payload.head_commit.id],
         author: {
             name: 'npm-version',
-            email: email
+            email: 'npm-version[bot]'
         }
     })
     const commitSha = commit.data.sha
