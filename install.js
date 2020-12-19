@@ -3,7 +3,9 @@ const { readFileSync } = require('fs')
 const { join } = require('path')
 
 const dependencies = JSON.parse(readFileSync(join(require.main.path, 'dependencies.json')))
-const install = exec(`npm i ${dependencies.join(' ')}`, { cwd: __dirname })
+const command = `npm i ${dependencies.join(' ')}`
+console.log(`$ ${command}`)
+const install = exec(command, { cwd: __dirname })
     .once('exit', code => {
         process.exit(code)
     })
