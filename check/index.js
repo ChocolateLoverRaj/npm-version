@@ -7,6 +7,7 @@ const { get } = require('https')
 const shasumText = 'npm notice shasum:'
 const nameText = 'npm notice name:'
 
+console.log(github.context.payload)
 let same = core.getInput('same') || github.context.ref.slice(11) === 'main'
 if (['true', 'false'].includes(same)) {
     same = same === 'true'
