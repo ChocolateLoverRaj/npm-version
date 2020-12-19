@@ -1,3 +1,4 @@
 [
-    "@actions/core"
+    "@actions/core",
+    "@actions/github"
 ]

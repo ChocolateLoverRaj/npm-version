@@ -1,4 +1,5 @@
 const core = require('@actions/core')
+const github = require('@actions/github')
 const { exec } = require('child_process')
 const { createInterface } = require('readline')
 const { get } = require('https')
@@ -6,7 +7,7 @@ const { get } = require('https')
 const shasumText = 'npm notice shasum:'
 const nameText = 'npm notice name:'
 
-let same = core.getInput('same')
+let same = core.getInput('same') || github.context.ref.slice(11) === 'main'
 if (['true', 'false'].includes(same)) {
     same = same === 'true'
 } else {
