@@ -29,6 +29,10 @@ publish.on('exit', code => {
     if (!code) {
         console.log('Fetching latest shasum from npm registry')
         get(`https://registry.npmjs.org/${name}/latest`).once('response', res => {
+            if (res.statusCode === 404) {
+                console.log('No previous package is published.')
+                return
+            }
             let json = ''
             res.on('data', chunk => {
                 json += chunk
